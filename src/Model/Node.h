@@ -3,6 +3,7 @@
 
 
 #include <string>
+#include <set>
 
 class Node {
 	protected:
@@ -11,6 +12,7 @@ class Node {
 		Node* _left = nullptr;
 		Node* _right = nullptr;
 		int _depth = 0;
+		std::set<std::string> _states = {};
 
 	public:
 		/**
@@ -110,6 +112,18 @@ class Node {
 		void setDepth(int& depth) {
 			this->_depth = depth;
 		}
-};
 
+		/**
+		 * Get the possible states of the Node
+		 * @return std::list<std::string>&
+		 */
+		std::set<std::string>& getStates();
+
+		/**
+		 * Add a possible state to the Node
+		 * @param s A string to add to the possible states
+		 */
+		void setStates(std::set<std::string>& states);
+
+};
 #endif

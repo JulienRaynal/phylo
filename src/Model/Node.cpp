@@ -1,22 +1,39 @@
 #include "Node.h"
+#include <iostream>
 
 using namespace std;
+
+set<string> stringSplitting(string s) {
+	size_t find_number = s.find_first_of("0123456789");
+	string state;
+	state = s.substr(0, find_number);
+	set<string> states;
+	if (state.length() > 0) {
+		states.emplace(state);
+	}
+	return states;
+}
 
 Node::Node(const string& name, int depth) {
 	this->_name = name;
 	this->_depth = depth;
+	this->_states = stringSplitting(name);
 }
 
 Node::Node(const string& name, Node* parent) {
 	this->_name = name;
 	this->_parent = parent;
+	this->_states = stringSplitting(name);
 }
 
 Node::~Node(){
-	delete this->_parent;
-	delete this->_left;
-	delete this->_right;
+    if (this->_parent) {
+        free(this->_parent);
+    }
+	//delete this->_left;
+	//delete this->_right;
 }
+
 
 void Node::setName(std::string& name) {
 	this->_name = name;
@@ -74,3 +91,12 @@ bool Node::checkParentNode() {
 Node* Node::getParentNode() {
 	return this->_parent;
 }
+
+set<string>& Node::getStates() {
+	return this->_states;
+}
+
+void Node::setStates(std::set<string>& states) {
+	this->_states = states;
+}
+

@@ -7,7 +7,7 @@ add_executable(Tests
 	LCA.cc
 
 #	MVC OBJECTS
-	../src/LCA/LCA.cpp
+	../src/lca/lca.cpp
 	../src/Model/Tree.cpp
 	../src/Model/Node.cpp
 	../src/Model/Trunk.cpp

@@ -3,17 +3,28 @@
 #include <libgen.h>
 #include "./Model/Node.h"
 #include "./Model/Tree.h"
-#include "./LCA/LCA.h"
+#include "./lca/lca.h"
+#include "./fitch/fitch.h"
+#include "./reconciliation/reconciliation.h"
 
 using namespace std;
 
 char* my_program = nullptr;
 
+/**
+ * A string to be called as a user manual
+ */
 void usage() {
 	cerr << "Usage: " << my_program << "<newick_file>" << endl
 	<< my_program << "\t-h,\t --help\n\tdisplays this message" << endl;
 }
 
+/**
+ * A parser to automatically parse the user input and check that it is an int
+ * @param input A character or string that is supposed to be a int
+ * @param output A int
+ * @return bool
+ */
 bool tryParse(string& input, int& output) {
 	try {
 		output = stoi(input);
@@ -23,6 +34,10 @@ bool tryParse(string& input, int& output) {
 	return true;
 }
 
+/**
+ * Management function for the main LCA application
+ * @param t A tree that was build previously
+ */
 void manage_lca(Tree& t) {
 	string node_name1, node_name2;
 	cout << "Please input the name of the first node you want to get the LCA from: " << endl;
@@ -38,10 +53,25 @@ void manage_lca(Tree& t) {
 		return;
 	}
 
-	Node* ancestor = LCA::findLowestCommonAncestor(n1, n2);
+	Node* ancestor = lca::findLowestCommonAncestor(n1, n2);
 	cout << "Common ancestor of " << n1->getName() << " and " << n2->getName()
 		<< "\n\tName: " << ancestor->getName()
 		<< "\n\tDepth: " << ancestor->getDepth() << endl;
+}
+
+/**
+ * A function to be used by the main function to manage user input and function calling
+ * @param t A Tree object
+ */
+void manage_tree_reconciliation(Tree& t) {
+	Tree t2;
+	string path_second_tree;
+	cout << "Please input the path to the species tree" << endl;
+	getline(cin, path_second_tree);
+	t2.buildTree(path_second_tree);
+	t2.cleanTreeDisplay(t2.getRoot());
+	reco::reconcile(t, t2);
+	return;
 }
 
 int main(int argc, char **argv) {
@@ -63,9 +93,11 @@ int main(int argc, char **argv) {
 
 	while(exit != true) {
 		cout << "###############################################################################################\
-			\nWelcome on the program " << my_program << ".\nPlease choose an option:\
+			\nWelcome on the program " << my_program << ".\nPlease choose an option (if not done you need to build the tree first):\
 			\n\tBuild tree: 1\
 			\n\tLCA: 2\
+			\n\tTree reconciliation: 3\
+			\n\tFitch algorihm: 4\
 			\n\tEXIT: 0\
 			\n###############################################################################################" << endl;
 		cout << "YOUR INPUT: ";
@@ -81,6 +113,19 @@ int main(int argc, char **argv) {
 				break;
 			case 2:
 				manage_lca(t);
+				break;
+			case 3:
+				// TODO: Finish this one day
+				//manage_tree_reconciliation(t);
+				cout << "THIS ALGORITHM IS NOT IMPLEMENTED YET" << endl;
+				break;
+			case 4:
+				fitch::etiquetteTree(t);
+				cout << "Root states:" << endl;
+				for (string s: t.getRoot()->getStates()) {
+					cout << "\t" << s << endl;
+				}
+				t.cleanTreeDisplay(t.getRoot());
 				break;
 			case 0:
 				return EXIT_SUCCESS;

@@ -1,7 +1,9 @@
 #include "Tree.h"
 
 using namespace std;
-
+// ======================================
+//	 GETTER AND SETTER FUNCTIONS
+// ======================================
 Node* Tree::getRoot() {
 	return this->_root;
 }
@@ -10,31 +12,37 @@ void Tree::setRoot(Node* root) {
 	this->_root = root;
 }
 
-void deallocateNode(Node* n) {
-	if (n == NULL) {
-	return;
+Node* Tree::findNode(Node* root, string value) {
+	if (root != nullptr) {
+		if (root->getName() == value) {
+			return root; 
+		}
+		else {
+			Node* foundNode = findNode(root->getLeftChild(), value);
+			if (foundNode == nullptr) {
+				foundNode = findNode(root->getRightChild(), value);
+			}
+			return foundNode;
+		}
 	}
-
-	deallocateNode(n->getLeftChild());
-	deallocateNode(n->getRightChild());
-
-	free(n);
+	else {
+		return nullptr;
+	}
 }
 
-void deallocateTrunk(vector<Trunk*> v) {
-	for (Trunk* n: v) {
-		free(n);
-	};
+vector<Node*>& Tree::getLeafNodes(Node* root, vector<Node*>& v) {
+	if ((!root->getLeftChild()) && (!root->getRightChild())) {
+		v.push_back(root);
+	} else {
+		getLeafNodes(root->getLeftChild(), v);
+		getLeafNodes(root->getRightChild(), v);
+	}
+	return v;
 }
 
-Tree::~Tree() {
-	cout << "DEALOCATING" << endl;
-	deallocateNode(this->getRoot());
-	cout << "Node deleted" << endl;
-	deallocateTrunk(this->getTrunks());
-	cout << "Trunk deleted" << endl;
-}
-
+// ======================================
+// 	Tree build function
+// ======================================
 Node* Tree::buildTree(string path_to_file) {
 	ifstream ifs(path_to_file); // Read the file 
 
@@ -98,6 +106,7 @@ Node* Tree::buildTree(string path_to_file) {
 						c = ifs.get();
 					}
 				}
+				// Create and assign values to the child node
 				Node* n = new Node(node_name);
 				int leaf_depth = depth + 1;
 				n->setDepth(leaf_depth);
@@ -125,7 +134,9 @@ Node* Tree::buildTree(string path_to_file) {
 	this->setRoot(s.top());
 	return s.top();
 }
-
+// ======================================
+// 	Tree display related functions
+// ======================================
 
 void Tree::printTree(Node* root, int space) {
 	if (root == NULL) {
@@ -148,7 +159,6 @@ void Tree::printTree(Node* root, int space) {
 	printTree(root->getLeftChild(), space);
 }
 
-
 void Tree::showTrunks(Trunk *p) {
 	if (p == nullptr) {
 		return;
@@ -156,24 +166,6 @@ void Tree::showTrunks(Trunk *p) {
 
 	showTrunks(p->getPrev());
 	cout << p->getStr();
-}
-
-Node* Tree::findNode(Node* root, string value) {
-	if (root != nullptr) {
-		if (root->getName() == value) {
-			return root; 
-		}
-		else {
-			Node* foundNode = findNode(root->getLeftChild(), value);
-			if (foundNode == nullptr) {
-				foundNode = findNode(root->getRightChild(), value);
-			}
-			return foundNode;
-		}
-	}
-	else {
-		return nullptr;
-	}
 }
 
 
@@ -212,7 +204,11 @@ void Tree::cleanTreeDisplay(Node* root, Trunk* prev, bool isLeft) {
 	}
 
 	showTrunks(trunk);
-	cout << " " << root->getName() << endl;
+	cout << " " << root->getName() << "(";
+	for (string s: root->getStates()) {
+		cout << s << ",";
+	}
+	cout << ")" <<  endl;
 
 	if (prev) {
 		prev->setStr(prev_str);
@@ -220,4 +216,31 @@ void Tree::cleanTreeDisplay(Node* root, Trunk* prev, bool isLeft) {
 	trunk->setStr(separator);
 
 	cleanTreeDisplay(root->getLeftChild(), trunk, false);
+}
+
+// ======================================
+// 	Memory deallocator functions
+// ======================================
+void deallocateNode(Node* n) {
+	if (n == NULL) {
+	return;
+	}
+
+	deallocateNode(n->getLeftChild());
+	deallocateNode(n->getRightChild());
+
+	delete n;
+}
+
+void deallocateTrunk(vector<Trunk*> v) {
+	for (Trunk* n: v) {
+		if (n != NULL) {
+			delete n;
+		}
+	};
+}
+
+Tree::~Tree() {
+	deallocateNode(this->getRoot());
+	deallocateTrunk(this->getTrunks());
 }

@@ -6,7 +6,9 @@ set(Target
 	"Model/Node.cpp"
 	"Model/Tree.cpp"
 	"Model/Trunk.cpp"
-	"LCA/LCA.cpp"
+	"lca/lca.cpp"
+	"fitch/fitch.cpp"
+	"reconciliation/reconciliation.cpp"
 )
 
 # ===== VARIABLES =====

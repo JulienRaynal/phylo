@@ -56,6 +56,7 @@ class Tree{
 
 		/**
 		 * A cleaner tree display
+		 * Largely inspired by https://www.techiedelight.com/fr/c-program-print-binary-tree/
 		 * @param root A pointer to the root node of the tree
 		 * @param prev A pointer to the previous trunk
 		 * @param isLeft A boolean saying if the analysed part is left or not
@@ -82,7 +83,13 @@ class Tree{
 		 * @param t A pointer to a Trunk to be added in the list
 		 */
 		void addTrunk(Trunk* t);
-};
 
+		/**
+		 * Get a vector of pointer to all the leaf nodes
+		 * @param v A vecotr of pointers to Node object
+		 * @return std::vector<Node*>
+		 */
+		std::vector<Node*>& getLeafNodes(Node* root, std::vector<Node*>& v);
+};
 
 #endif
