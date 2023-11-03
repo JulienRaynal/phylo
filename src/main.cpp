@@ -3,9 +3,9 @@
 #include <libgen.h>
 #include "./Model/Node.h"
 #include "./Model/Tree.h"
-#include "./lca/lca.h"
-#include "./fitch/fitch.h"
-#include "./reconciliation/reconciliation.h"
+//#include "./lca/lca.h"
+//#include "./fitch/fitch.h"
+//#include "./reconciliation/reconciliation.h"
 
 using namespace std;
 
@@ -38,48 +38,49 @@ bool tryParse(string& input, int& output) {
  * Management function for the main LCA application
  * @param t A tree that was build previously
  */
-void manage_lca(Tree& t) {
-	string node_name1, node_name2;
-	cout << "Please input the name of the first node you want to get the LCA from: " << endl;
-	getline(cin, node_name1);
-	cout << "Please input the name of the second node you want to get the LCA from: " << endl;
-	getline(cin, node_name2);
-	Node* n1 = t.findNode(t.getRoot(), node_name1);
-	Node* n2 = t.findNode(t.getRoot(), node_name2);
-
-	// If node 1 or node 2 is a nullptr then the node name doesn't exist
-	if ((!n1) || (!n2)) {
-		cerr << "One or both node name don't exist, please input existing names" << endl;
-		return;
-	}
-
-	Node* ancestor = lca::findLowestCommonAncestor(n1, n2);
-	cout << "Common ancestor of " << n1->getName() << " and " << n2->getName()
-		<< "\n\tName: " << ancestor->getName()
-		<< "\n\tDepth: " << ancestor->getDepth() << endl;
-}
+//void manage_lca(Tree& t) {
+//	string node_name1, node_name2;
+//	cout << "Please input the name of the first node you want to get the LCA from: " << endl;
+//	getline(cin, node_name1);
+//	cout << "Please input the name of the second node you want to get the LCA from: " << endl;
+//	getline(cin, node_name2);
+//	Node* n1 = t.findNode(t.getRoot(), node_name1);
+//	Node* n2 = t.findNode(t.getRoot(), node_name2);
+//
+//	// If node 1 or node 2 is a nullptr then the node name doesn't exist
+//	if ((!n1) || (!n2)) {
+//		cerr << "One or both node name don't exist, please input existing names" << endl;
+//		return;
+//	}
+//
+//	Node* ancestor = lca::findLowestCommonAncestor(n1, n2);
+//	cout << "Common ancestor of " << n1->getName() << " and " << n2->getName()
+//		<< "\n\tName: " << ancestor->getName()
+//		<< "\n\tDepth: " << ancestor->getDepth() << endl;
+//}
 
 /**
  * A function to be used by the main function to manage user input and function calling
  * @param t A Tree object
  */
-void manage_tree_reconciliation(Tree& t) {
-	Tree t2;
-	string path_second_tree;
-	cout << "Please input the path to the species tree" << endl;
-	getline(cin, path_second_tree);
-	t2.buildTree(path_second_tree);
-	t2.cleanTreeDisplay(t2.getRoot());
-	reco::reconcile(t, t2);
-	return;
-}
+//void manage_tree_reconciliation(Tree& t) {
+//	Tree t2;
+//	string path_second_tree;
+//	cout << "Please input the path to the species tree" << endl;
+//	getline(cin, path_second_tree);
+//	t2.buildTree(path_second_tree);
+//	t2.cleanTreeDisplay(t2.getRoot());
+//	reco::reconcile(t, t2);
+//	return;
+//}
 
 int main(int argc, char **argv) {
 	my_program = basename(argv[0]); // just used for a nicer output
 	bool exit = false; // Allows to manage the exit of the program
 	string input; // Takes the user input
 	int output; // User input converted in int
-	Tree t; // Tree that will be used in the whole code;
+	//Tree t; // Tree that will be used in the whole code;
+	Node* root;
 	
 	cout << "You are currently running the program " << '\'' << my_program << '\'' << endl;
 	if ((argc != 2) || ((string(argv[1]) == "-h") || string(argv[1]) == "--help")) {
@@ -107,28 +108,33 @@ int main(int argc, char **argv) {
 			getline(cin, input);
 		}
 		switch (output) {
-			case 1: 
-				t.buildTree(argv[1]);
-				t.cleanTreeDisplay(t.getRoot());
+			case 1: { 
+				vector<trunk::Trunk*> v;
+				root = tree::buildTree(argv[1]);
+				tree::cleanTreeDisplay(root, v);
+				cout << v.size() << endl;
+				trunk::freeTrunk(v);
 				break;
-			case 2:
-				manage_lca(t);
-				break;
-			case 3:
-				// TODO: Finish this one day
-				//manage_tree_reconciliation(t);
-				cout << "THIS ALGORITHM IS NOT IMPLEMENTED YET" << endl;
-				break;
-			case 4:
-				fitch::etiquetteTree(t);
-				cout << "Root states:" << endl;
-				for (string s: t.getRoot()->getStates()) {
-					cout << "\t" << s << endl;
 				}
-				t.cleanTreeDisplay(t.getRoot());
-				break;
-			case 0:
+			case 2:
+				root->freeNode();
 				return EXIT_SUCCESS;
+			//case 2:
+			//	manage_lca(t);
+			//	break;
+			//case 3:
+			//	// TODO: Finish this one day
+			//	//manage_tree_reconciliation(t);
+			//	cout << "THIS ALGORITHM IS NOT IMPLEMENTED YET" << endl;
+			//	break;
+			//case 4:
+			//	fitch::etiquetteTree(t);
+			//	cout << "Root states:" << endl;
+			//	for (string s: t.getRoot()->getStates()) {
+			//		cout << "\t" << s << endl;
+			//	}
+			//	t.cleanTreeDisplay(t.getRoot());
+			//	break;
 		}
 	}
 }

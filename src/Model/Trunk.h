@@ -12,46 +12,31 @@
 #define PHYLO_TRUNK_H
 
 #include <string>
+#include <vector>
+#include <iostream>
 
-class Trunk {
-	private:
-		Trunk* _prev;
-		std::string _str;
-	public:
-		/**
-		 * Constructor
-		 * @param prev Pointer to the previous trunk
-		 * @param str String for this trunk
-		 */
-		Trunk(Trunk* prev, std::string& str);
+namespace trunk {
+	struct Trunk {
+		Trunk* prev;
+		std::string str;
 
-		/**
-		 * Destructor
-		 */
-		~Trunk();
+		Trunk(Trunk* prev, std::string& str) {
+			this->prev = prev;
+			this->str = str;
+		}
+	};
 
-		/**
-		 * Get the previous Trunk
-		 * @return Trunk*
-		 */
-		Trunk* getPrev();	
+	/**
+	 * Memory management function for the Trunk structures
+	 * @param v A vector containing pointers to Trunk structures
+	 */
+	void freeTrunk(std::vector<Trunk*> v);	
 
-		/**
-		 * Set the previous Trunk
-		 * @prev Pointer to the previous trunk
-		 */
-		void setPrev(Trunk* prev);
-
-		/**
-		 * Get this Trunk string
-		 * @return string
-		 */
-		std::string& getStr();
-		/**
-		 * Set this Trunk string
-		 * @param A string for this trunk
-		 */
-		void setStr(std::string& str);
+	/**
+	 * Display the value of the trunk structure (used to build the tree)
+	 * @param p A pointer to a trunk
+	 */
+	void showTrunks(trunk::Trunk* p);
 };
 
 #endif

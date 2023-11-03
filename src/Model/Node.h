@@ -30,6 +30,11 @@ class Node {
 		 * Destructor
 		 */
 		~Node();
+		/**
+		 * A manual destructor
+		 * @param n A pointer to the root node
+		 */
+		void freeNode();
 
 		/**
 		 * Set the name of the node

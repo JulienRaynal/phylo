@@ -26,13 +26,19 @@ Node::Node(const string& name, Node* parent) {
 	this->_states = stringSplitting(name);
 }
 
-Node::~Node(){
-    if (this->_parent) {
-        free(this->_parent);
-    }
-	//delete this->_left;
-	//delete this->_right;
+void Node::freeNode() {
+    delete this;
 }
+
+Node::~Node(){
+    if (!this) {
+        return;
+    }
+
+    this->getLeftChild()->freeNode();
+    this->getRightChild()->freeNode();
+}
+
 
 
 void Node::setName(std::string& name) {

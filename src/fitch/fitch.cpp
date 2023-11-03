@@ -2,6 +2,12 @@
 
 using namespace std;
 namespace fitch {
+	/**
+	 * A function that hold the final state of a gene assignement logic
+	 *
+	 * @param parent_node A pointer to the parent node
+	 * @param child_node A pointer to the child node of the first pointer
+	 */
 	void fitchAssignState(Node* parent_node, Node* child_node) {
 		set<string> parent_states = parent_node->getStates();
 		// If the current node is the root node
@@ -31,6 +37,11 @@ namespace fitch {
 		}
 	}
 
+	/**
+	 * A recursive algorithm to assign the etiquettes to all child starting from a root node
+	 *
+	 * @param a pointer to an initial node
+	 */
 	void fitchDescendTree(Node* node) {
 		if(!node || (!node->getLeftChild() && !node->getRightChild())) {
 			return;
@@ -49,6 +60,11 @@ namespace fitch {
 		}
 	}
 
+	/**
+	 * Implementation of the fitch algorithm for a parcimonic assignment of gene states in a tree
+	 *
+	 * @param t A tree object
+	 */
 	Tree& etiquetteTree(Tree& t) {
 		// ===== Ascending phase =====
 		// TODO: do a loop getting the parent at max_depth() - i for each leaf and assign with this
