@@ -6,7 +6,7 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
-#include "Node.h"
+#include "../Objects/Node.h"
 #include "Trunk.h"
 
 /**
@@ -48,7 +48,7 @@ namespace tree {
 		 * @param v A vecotr of pointers to Node object
 		 * @return std::vector<Node*>
 		 */
-		std::vector<Node*>& getLeafNodes(Node* root, std::vector<Node*>& v);
+		std::set<Node*>& getLeafNodes(Node* node, std::set<Node*>& s);
 };
 
 #endif

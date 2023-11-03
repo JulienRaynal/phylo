@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
 #include <libgen.h>
-#include "./Model/Node.h"
-#include "./Model/Tree.h"
-//#include "./lca/lca.h"
-//#include "./fitch/fitch.h"
+#include "./Objects/Node.h"
+#include "./Helpers/Tree.h"
+#include "./lca/lca.h"
+#include "./fitch/fitch.h"
 //#include "./reconciliation/reconciliation.h"
 
 using namespace std;
@@ -36,28 +36,28 @@ bool tryParse(string& input, int& output) {
 
 /**
  * Management function for the main LCA application
- * @param t A tree that was build previously
+ * @param t A root node of a tree
  */
-//void manage_lca(Tree& t) {
-//	string node_name1, node_name2;
-//	cout << "Please input the name of the first node you want to get the LCA from: " << endl;
-//	getline(cin, node_name1);
-//	cout << "Please input the name of the second node you want to get the LCA from: " << endl;
-//	getline(cin, node_name2);
-//	Node* n1 = t.findNode(t.getRoot(), node_name1);
-//	Node* n2 = t.findNode(t.getRoot(), node_name2);
-//
-//	// If node 1 or node 2 is a nullptr then the node name doesn't exist
-//	if ((!n1) || (!n2)) {
-//		cerr << "One or both node name don't exist, please input existing names" << endl;
-//		return;
-//	}
-//
-//	Node* ancestor = lca::findLowestCommonAncestor(n1, n2);
-//	cout << "Common ancestor of " << n1->getName() << " and " << n2->getName()
-//		<< "\n\tName: " << ancestor->getName()
-//		<< "\n\tDepth: " << ancestor->getDepth() << endl;
-//}
+void manage_lca(Node* root) {
+	string node_name1, node_name2;
+	cout << "Please input the name of the first node you want to get the LCA from: " << endl;
+	getline(cin, node_name1);
+	cout << "Please input the name of the second node you want to get the LCA from: " << endl;
+	getline(cin, node_name2);
+	Node* n1 = tree::findNode(root, node_name1);
+	Node* n2 = tree::findNode(root, node_name2);
+
+	// If node 1 or node 2 is a nullptr then the node name doesn't exist
+	if ((!n1) || (!n2)) {
+		cerr << "One or both node name don't exist, please input existing names" << endl;
+		return;
+	}
+
+	Node* ancestor = lca::findLowestCommonAncestor(n1, n2);
+	cout << "Common ancestor of " << n1->getName() << " and " << n2->getName()
+		<< "\n\tName: " << ancestor->getName()
+		<< "\n\tDepth: " << ancestor->getDepth() << endl;
+}
 
 /**
  * A function to be used by the main function to manage user input and function calling
@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
 	string input; // Takes the user input
 	int output; // User input converted in int
 	//Tree t; // Tree that will be used in the whole code;
-	Node* root;
+	Node* root = nullptr;
 	
 	cout << "You are currently running the program " << '\'' << my_program << '\'' << endl;
 	if ((argc != 2) || ((string(argv[1]) == "-h") || string(argv[1]) == "--help")) {
@@ -109,32 +109,33 @@ int main(int argc, char **argv) {
 		}
 		switch (output) {
 			case 1: { 
-				vector<trunk::Trunk*> v;
+				if (root) {
+					root->freeNode();
+				}
+				vector<trunk::Trunk*> tv1;
 				root = tree::buildTree(argv[1]);
-				tree::cleanTreeDisplay(root, v);
-				cout << v.size() << endl;
-				trunk::freeTrunk(v);
+				tree::cleanTreeDisplay(root, tv1);
+				trunk::freeTrunk(tv1);
 				break;
 				}
 			case 2:
+				manage_lca(root);
+				break;
+			case 3:
+				// TODO: Finish this one day
+				//manage_tree_reconciliation(t);
+				cout << "THIS ALGORITHM IS NOT IMPLEMENTED YET" << endl;
+				break;
+			case 4:{
+				fitch::etiquetteTree(root);
+				vector<trunk::Trunk*> tv;
+				tree::cleanTreeDisplay(root, tv);
+				trunk::freeTrunk(tv);
+				break;
+			      }
+			case 0:
 				root->freeNode();
 				return EXIT_SUCCESS;
-			//case 2:
-			//	manage_lca(t);
-			//	break;
-			//case 3:
-			//	// TODO: Finish this one day
-			//	//manage_tree_reconciliation(t);
-			//	cout << "THIS ALGORITHM IS NOT IMPLEMENTED YET" << endl;
-			//	break;
-			//case 4:
-			//	fitch::etiquetteTree(t);
-			//	cout << "Root states:" << endl;
-			//	for (string s: t.getRoot()->getStates()) {
-			//		cout << "\t" << s << endl;
-			//	}
-			//	t.cleanTreeDisplay(t.getRoot());
-			//	break;
 		}
 	}
 }

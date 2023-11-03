@@ -25,14 +25,14 @@ namespace tree {
 		}
 	}
 
-	vector<Node*>& getLeafNodes(Node* root, vector<Node*>& v) {
-		if ((!root->getLeftChild()) && (!root->getRightChild())) {
-			v.push_back(root);
+	set<Node*>& getLeafNodes(Node* node, set<Node*>& s) {
+		if ((!node->getLeftChild()) && (!node->getRightChild())) {
+			s.emplace(node);
 		} else {
-			getLeafNodes(root->getLeftChild(), v);
-			getLeafNodes(root->getRightChild(), v);
+			getLeafNodes(node->getLeftChild(), s);
+			getLeafNodes(node->getRightChild(), s);
 		}
-		return v;
+		return s;
 	}
 
 	// ======================================
@@ -119,6 +119,8 @@ namespace tree {
 				}
 			}
 		}
+		// Closing the stream reading the file
+		ifs.close();
 		// Cleaning up the stack
 		int stack_size = s.size();
 		for (int i = stack_size; i<=0; i--) {

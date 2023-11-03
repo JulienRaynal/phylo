@@ -102,7 +102,7 @@ set<string>& Node::getStates() {
 	return this->_states;
 }
 
-void Node::setStates(std::set<string>& states) {
+void Node::setStates(std::set<string> states) {
 	this->_states = states;
 }
 

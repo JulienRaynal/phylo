@@ -8,9 +8,9 @@ add_executable(Tests
 
 #	MVC OBJECTS
 	../src/lca/lca.cpp
-	../src/Model/Tree.cpp
-	../src/Model/Node.cpp
-	../src/Model/Trunk.cpp
+	../src/Helpers/Tree.cpp
+	../src/Objects/Node.cpp
+	../src/Helpers/Trunk.cpp
         )
 
 

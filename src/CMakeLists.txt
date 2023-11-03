@@ -3,11 +3,11 @@ cmake_minimum_required(VERSION 3.24)
 # ===== VARIABLES =====
 set(Target
 	"main.cpp"
-	"Model/Node.cpp"
-	"Model/Tree.cpp"
-	"Model/Trunk.cpp"
-	#"lca/lca.cpp"
-	#"fitch/fitch.cpp"
+	"Objects/Node.cpp"
+	"Helpers/Tree.cpp"
+	"Helpers/Trunk.cpp"
+	"lca/lca.cpp"
+	"fitch/fitch.cpp"
 	#"reconciliation/reconciliation.cpp"
 )
 
