@@ -3,6 +3,10 @@
 - [Cmake](#Cmake)
   + [Generating makefiles with cmake](#Generating-makefiles-with-cmake)
   + [Using the generated makefiles with cmake](#Using-the-generated-makefiles-with-cmake)
+  + [The possible targets](#The-possible-targets)
+- [Specification](#Specification)
+  + [Newick format](#Newick-format)
+  + [Node](#Tree)
 
 # Phylo
 ![Static Badge](https://img.shields.io/badge/language-c%2B%2B-blue)
