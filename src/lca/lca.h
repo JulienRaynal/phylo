@@ -1,7 +1,7 @@
 #ifndef PHYLO_LCA_H
 #define PHYLO_LCA_H
 
-#include "../Model/Node.h"
+#include "../Objects/Node.h"
 
 namespace lca {
 	/** Find the lowest common ancestor in a tree of two given nodes

@@ -30,6 +30,11 @@ class Node {
 		 * Destructor
 		 */
 		~Node();
+		/**
+		 * A manual destructor
+		 * @param n A pointer to the root node
+		 */
+		void freeNode();
 
 		/**
 		 * Set the name of the node
@@ -123,7 +128,7 @@ class Node {
 		 * Add a possible state to the Node
 		 * @param s A string to add to the possible states
 		 */
-		void setStates(std::set<std::string>& states);
+		void setStates(std::set<std::string> states);
 
 };
 #endif
