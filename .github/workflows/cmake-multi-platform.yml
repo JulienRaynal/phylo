@@ -12,6 +12,8 @@ on:
 
 jobs:
   build:
+    permissions:
+      contents: write
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -95,7 +97,7 @@ jobs:
 
 
     - name: Upload binaries
-      if: ${{!startsWith(matrix.config.os, 'windows')}}
+      if: ${{!startsWith(matrix.config.os, 'windows')} && startsWith(github.ref, 'refs/tags/')}
       uses: softprops/action-gh-release@v1
       with:
         files: ${{steps.strings.outputs.build-output-dir }}/src/phylo
