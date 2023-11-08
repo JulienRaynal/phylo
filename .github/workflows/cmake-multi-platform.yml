@@ -81,5 +81,10 @@ jobs:
 
     - uses: actions/upload-artifact@v3
       with:
-        name: exe
+        name: ${{matrix.os}}.bin
         path: ${{ steps.strings.outputs.build-output-dir }}/src/phylo
+  
+  # release:
+  #   needs: build
+  #   name: Create release
+  #   runs-on
