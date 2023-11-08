@@ -81,8 +81,9 @@ jobs:
 
     - uses: actions/upload-artifact@v3
       with:
-        name: ${{matrix.os}}.bin
-        path: ${{ steps.strings.outputs.build-output-dir }}/src/phylo
+        if: !startsWith(matrix.os, 'windows')
+          name: ${{matrix.os}}-${{matrix.c_compiler}}.bin
+          path: ${{ steps.strings.outputs.build-output-dir }}/src/phylo
   
   # release:
   #   needs: build
