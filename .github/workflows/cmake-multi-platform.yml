@@ -101,7 +101,7 @@ jobs:
 
 
     - name: Upload binaries
-      if: ${{!startsWith(matrix.config.os, 'windows')}} && startsWith(github.ref, 'refs/tags/')
+      if: ${{!startsWith(matrix.config.os, 'windows') && startsWith(github.ref, 'refs/tags/')}}
       uses: softprops/action-gh-release@v1
       with:
         files: ${{steps.strings.outputs.build-output-dir }}/src/phylo
