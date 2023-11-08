@@ -69,3 +69,4 @@ class Node() {
   std::set<string> _states; // Gene states a Node could have, used in the Fitch algorithm
 }
 ```
+
