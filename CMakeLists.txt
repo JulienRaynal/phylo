@@ -17,4 +17,5 @@ project(Tree-C
 # ===== Additional CmakeLists.txt =====
 add_subdirectory(src)
 add_subdirectory(Tests)
+include(Doc/CMakeLists.txt)
 #add_subdirectory(Tests)
