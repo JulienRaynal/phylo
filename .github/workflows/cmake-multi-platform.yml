@@ -92,7 +92,13 @@ jobs:
       with:
           name: ${{matrix.os}}-${{matrix.c_compiler}}.bin
           path: ${{ steps.strings.outputs.build-output-dir }}/src/phylo
-  
+
+
+    - name: Upload binaries
+      if: ${{!startsWith(matrix.config.os, 'windows')}}
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ${{steps.strings.outputs.build-output-dir }}/src/phylo
   # release:
   #   needs: build
   #   name: Create release
