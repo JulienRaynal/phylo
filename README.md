@@ -11,7 +11,8 @@
 # Phylo
 ![Static Badge](https://img.shields.io/badge/language-c%2B%2B-blue)
 ![Static Badge](https://img.shields.io/badge/manager-cmake-green)
-
+<br>
+<img src="https://wojakparadise.net/wojak/2817/img" alt="Pepe the wizard" style="width:100px;"/>
 <br>
 A code building phylogenetic trees from a newick format in c++, implementing LCA and Fitch algorithms.
 
