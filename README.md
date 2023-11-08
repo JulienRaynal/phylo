@@ -68,6 +68,5 @@ class Node() {
   int _depth; // Depth of the Node (used for a clearer display of the LCA resutls)
   std::set<string> _states; // Gene states a Node could have, used in the Fitch algorithm
 }
-
 ```
 
