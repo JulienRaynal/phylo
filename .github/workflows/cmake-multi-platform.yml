@@ -85,32 +85,47 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest --build-config ${{ matrix.build_type }}
 
-    - name: Unix Artifacts      
+    - name: rename binaries
       if: ${{!startsWith(matrix.config.os, 'windows')}}
-      uses: actions/upload-artifact@v3
-      with:
-          name: ${{matrix.os}}-${{matrix.c_compiler}}.bin
-          path: ${{ steps.strings.outputs.build-output-dir }}/src/phylo
+      run: mv ${{ steps.strings.outputs.build-output-dir }}/src/phylo  ${{ steps.strings.outputs.build-output-dir }}/${{matrix.os}}-${{matrix.c_compiler}}.bin
 
-    - name: Unix Artifacts
-      if: startsWith(matrix.config.os, 'windows')
-      uses: actions/upload-artifact@v3
-      with:
-          name: ${{matrix.os}}-${{matrix.c_compiler}}.bin
-          path: ${{ steps.strings.outputs.build-output-dir }}/src/phylo
+    - name: rename exe
+      if: ${{startsWith(matrix.config.os, 'windows')}}
+      run: mv ${{ steps.strings.outputs.build-output-dir }}/src/phylo  ${{ steps.strings.outputs.build-output-dir }}/${{matrix.os}}-${{matrix.c_compiler}}.exe
 
+    # - name: Unix Artifacts      
+    #   if: ${{!startsWith(matrix.config.os, 'windows')}}
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #       name: ${{matrix.os}}-${{matrix.c_compiler}}.bin
+    #       path: ${{ steps.strings.outputs.build-output-dir }}/src/phylo
+
+    # - name: Unix Artifacts
+    #   if: startsWith(matrix.config.os, 'windows')
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #       name: ${{matrix.os}}-${{matrix.c_compiler}}.bin
+    #       path: ${{ steps.strings.outputs.build-output-dir }}/src/phylo
+
+
+    - name: Upload binaries
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ${{steps.strings.outputs.build-output-dir }}//${{matrix.os}}-${{matrix.c_compiler}}.*
+    
 
 
         
-  release:
-    if: ${{startsWith(github.ref, 'refs/tags/')}}
-    needs: build
-    name: Create release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
+  # release:
+  #   if: ${{startsWith(github.ref, 'refs/tags/')}}
+  #   needs: build
+  #   name: Create release
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Download artifacts
+  #       uses: actions/download-artifact@v3
         
-      - name: Display structure of downloaded files
-        run: ls -R
+  #     - name: Display structure of downloaded files
+  #       run: ls -R
 
