@@ -39,42 +39,27 @@ Node::~Node(){
     this->getRightChild()->freeNode();
 }
 
-
-
-void Node::setName(std::string& name) {
-	this->_name = name;
-}
-
 string& Node::getName() {
 	return this->_name;
 }
 
-void Node::setLeftChild(Node* left_child) {
-	this->_left = left_child;
-}
-
-bool Node::checkLeftChild() {
-	if (this->_left) {
-		return true;
-	} else {
-		return false;
+void Node::addChild(Node* child) {
+	if(!this->_left) {
+		this->_left = child;
+	} 
+	else if (!this->_right) {
+		this->_right = child;
 	}
+	else {
+		cerr << "A third child was trying to be set";
+		return;
+	}
+	child->setParentNode(this);
+
 }
 
 Node* Node::getLeftChild() {
 	return this->_left;
-}
-
-void Node::setRightChild(Node* right_child) {
-	this->_right = right_child;
-}
-
-bool Node::checkRightChild() {
-	if (this->_right) {
-		return true;
-	} else {
-		return false;
-	}
 }
 
 Node* Node::getRightChild() {
@@ -83,15 +68,6 @@ Node* Node::getRightChild() {
 
 void Node::setParentNode(Node* parent) {
 	this->_parent = parent;
-}
-
-
-bool Node::checkParentNode() {
-	if (this->_parent) {
-		return true;
-	} else {
-		return false;
-	}
 }
 
 Node* Node::getParentNode() {

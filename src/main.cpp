@@ -20,7 +20,7 @@ void usage() {
 }
 
 /**
- * A parser to automatically parse the user input and check that it is an int
+ * A parser to automatically parse the user input and check that it is an integer
  * @param input A character or string that is supposed to be a int
  * @param output A int
  * @return bool
@@ -59,24 +59,8 @@ void manage_lca(Node* root) {
 		<< "\n\tDepth: " << ancestor->getDepth() << endl;
 }
 
-/**
- * A function to be used by the main function to manage user input and function calling
- * @param t A Tree object
- */
-//void manage_tree_reconciliation(Tree& t) {
-//	Tree t2;
-//	string path_second_tree;
-//	cout << "Please input the path to the species tree" << endl;
-//	getline(cin, path_second_tree);
-//	t2.buildTree(path_second_tree);
-//	t2.cleanTreeDisplay(t2.getRoot());
-//	reco::reconcile(t, t2);
-//	return;
-//}
-
 int main(int argc, char **argv) {
 	my_program = "Phylo"; // just used for a nicer output
-	bool exit = false; // Allows to manage the exit of the program
 	string input; // Takes the user input
 	int output; // User input converted in int
 	//Tree t; // Tree that will be used in the whole code;
@@ -92,7 +76,7 @@ int main(int argc, char **argv) {
 	}
 
 
-	while(exit != true) {
+	while(true) {
 		cout << "###############################################################################################\
 			\nWelcome on the program " << my_program << ".\nPlease choose an option (if not done you need to build the tree first):\
 			\n\tBuild tree: 1\
@@ -123,7 +107,6 @@ int main(int argc, char **argv) {
 				break;
 			case 3:
 				// TODO: Finish this one day
-				//manage_tree_reconciliation(t);
 				cout << "THIS ALGORITHM IS NOT IMPLEMENTED YET" << endl;
 				break;
 			case 4:{

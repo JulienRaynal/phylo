@@ -35,12 +35,6 @@ class Node {
 		 * @param n A pointer to the root node
 		 */
 		void freeNode();
-
-		/**
-		 * Set the name of the node
-		 * @param name New name for the node
-		 */
-		void setName(std::string& name);
 		
 		/**
 		 * Get the node name
@@ -49,53 +43,29 @@ class Node {
 		std::string& getName();
 
 		/**
-		 * Set the left child of the current node
-		 * @param left_child Reference to the left child
+		 * Dynamically assign a child if a child is not set
+		 *
+		 * @param Node* Pointer to a child node
 		 */
-		void setLeftChild(Node* left_child);
-		
-		/**
-		 * Check if left child exists
-		 * @return bool
-		 */
-		bool checkLeftChild();
-		
+		void addChild(Node* child);
+
 		/**
 		 * Get the value of the left child
 		 */
 		Node* getLeftChild();
-		
-		/**
-		 * Set the right child of the current node
-		 * @param right_child Reference to the right child
-		 * @return Node*
-		 */
-		void setRightChild(Node* right_child);
-		
-		/**
-		 * Check if right child exists
-		 */
-		bool checkRightChild();
-		
+
 		/**
 		 * Get the value of the right child
 		 * @return bool
 		 */
 		Node* getRightChild();
-		
+
 		/**
 		 * Set the parent of the node
 		 * @param parent Reference to the parent node
 		 * @return Node*
 		 */
 		void setParentNode(Node* parent);
-		
-		/**
-		 * Check if parent Node exists
-		 * @param parent A pointer to the parent node
-		 * @return bool
-		 */
-		bool checkParentNode();
 		
 		/**
 		 * Get the value of the parent node
@@ -109,13 +79,6 @@ class Node {
 		 */
 		int getDepth() {
 			return this->_depth;
-		}
-		/**
-		 * Set the depth value of the current node
-		 * @param int& Depth of the node
-		 */
-		void setDepth(int& depth) {
-			this->_depth = depth;
 		}
 
 		/**

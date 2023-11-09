@@ -2,7 +2,8 @@
 
 using namespace std;
 namespace fitch {
-	/** Gets the first element in a set of string
+	/** 
+	 * Gets the first element in a set of string
 	 *
 	 * @param states A set of strings
 	 * @return set<string>
@@ -26,21 +27,13 @@ namespace fitch {
 	 * 		- doing an intersect (ensemblist logic) if they have on value in common
 	 * 		- selecting the first state of the receiver if no intersection exists (mutation)
 	 *
+	 *
+	 *
 	 * @param giver A node pointer to the giver of the gene state
 	 * @param receiver A node pointer to the receiver of the gene state
 	 * @param descending A boolean to know if it's the descending (slightly alter the algorithm to avoid unions)
 	 */
 	void _fitchAssignState(Node* giver, Node* receiver, bool descending = false) {
-		//TODO: This is the way it is described but it makes one more call to the parent node
-		/*
-		if (!receiver) {
-			return;
-		}
-		if (!giver->getParentNode()) {
-			giver->setStates(_getFirstState(giver->getStates()));
-		*/
-
-
 		// if the giver is null then the receiver is the parent root in the descending phase
 		// see: _fitchDescendTree()
 		if (!receiver) {
@@ -56,12 +49,8 @@ namespace fitch {
 					receiver_states.begin(), receiver_states.end(),
 					inserter(intersect, intersect.begin()));
 			// If there's an existing intersection
-			if (intersect.size() > 0) {
+			if (!intersect.empty()) {
 				receiver->setStates(intersect);
-				cout << "INTERSECTION: " << giver->getName() << " --> " << receiver->getName() << endl; 
-				for (string s: intersect) {
-					cout << "\t" << s << endl;
-				}
 			} else {
 				// If the algorithm is descending the receiver gets assigned one of his states
 				// Else if the algorithm is ascending the union between the giver and receiver is assigned to the receiver
@@ -72,27 +61,20 @@ namespace fitch {
 					set_union(giver_states.begin(), giver_states.end(),
 							receiver_states.begin(), receiver_states.end(),
 							inserter(union_set, union_set.begin()));
-					//set<string>::iterator giver_states_iterator = giver_states.begin();
-					//set<string> first_giver_state = {*giver_states_iterator};
-					//receiver->setStates(first_giver_state);
 					receiver->setStates(union_set);
-					cout << "UNION: " << giver->getName() << " --> " << receiver->getName() << endl; 
-					for (string s: union_set) {
-						cout << "\t" << s << endl;
 					}
 				}
 			}
 
 		}
-	}
 
 	/**
 	 * A recursive algorithm to assign the states of gene to all child starting from a root node in a descending manner
+	 * Uses a breadth-first-search
 	 *
 	 * @param node A pointer to an initial node
 	 */
 	void _fitchDescendTree(Node* node) {
-		cout << "DESCENDING" << endl;
 		if(!node || (!node->getLeftChild() && !node->getRightChild())) {
 			return;
 		}
@@ -113,24 +95,24 @@ namespace fitch {
 	/**
 	 * A recursive algorihthm to assign states of gene to all parent from the leaf nodes in an ascending manner
 	 *
-	 * @param leafs A list of leaves from the tree
+	 * @param leaves A list of leaves from the tree
 	 */
-	void _fitchAscendTree(set<Node*>& leafs) {
-		set<Node*> current_nodes = leafs; // create new list to put the parents of the nodes in it
-		leafs.clear(); // free the list to add the parents in it
-		while (*current_nodes.begin() != NULL) { // When the node is null then we reached the top
-			for (Node* n: current_nodes) {
-				Node* parent = n->getParentNode();
-				_fitchAssignState(n, parent);
+	void _fitchAscendTree(set<Node*>& leaves) {
+		set<Node*> current_nodes = leaves; // create new list to put the parents of the nodes in it
+		leaves.clear(); // free the list to add the parents in it
+		while (*current_nodes.begin() != nullptr) { // When the node is null then we reached the top
+			for (Node* node: current_nodes) {
+				Node* parent = node->getParentNode();
+				_fitchAssignState(node, parent);
 				// Check if the leaf is already in the set to not create doubles
-				const bool is_in = leafs.find(parent) != leafs.end();
+				const bool is_in = leaves.find(parent) != leaves.end();
 				if (!is_in) {
-					leafs.emplace(parent);
+					leaves.emplace(parent);
 				}
 			}
 			// Set the parents as next current_nodes
-			current_nodes = leafs;
-			leafs.clear();
+			current_nodes = leaves;
+			leaves.clear();
 		}
 	}
 
@@ -140,11 +122,11 @@ namespace fitch {
 	 * @param t A tree object
 	 */
 	void etiquetteTree(Node* root) {
-		set<Node*> v;
-		tree::getLeafNodes(root, v); // Gets all the leaf nodes and put it in the v vector
+		set<Node*> leaves;
+		tree::getLeafNodes(root, leaves); // Gets all the leaf nodes and put it in the v vector
 					     
 		// ===== Ascending phase =====
-		_fitchAscendTree(v);
+		_fitchAscendTree(leaves);
 		// ===== Descending phase =====
 		_fitchDescendTree(root);
 	};
