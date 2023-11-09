@@ -45,6 +45,7 @@ namespace tree {
 
 		/**
 		 * Get a vector of pointer to all the leaf nodes
+		 * Breadth-first-search (BFS) https://en.wikipedia.org/wiki/Breadth-first_search
 		 * @param v A vecotr of pointers to Node object
 		 * @return std::vector<Node*>
 		 */

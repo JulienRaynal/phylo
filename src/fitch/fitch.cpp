@@ -17,13 +17,13 @@ namespace fitch {
 	 * A function that manages all the logic of the node gene state assignement.
 	 * Ascending phase:
 	 * 	Will assign to the receiver node the value of the giver node by either:
-	 * 		- doing an intersect if they have any value in common
-	 * 		- doing an union if there's no value in common between the giver and the receiver states
+	 * 		- doing an intersect (ensemblist logic) if they have any value in common
+	 * 		- doing an union (ensemblist logic) if there's no value in common between the giver and the receiver states
 	 * 	If the giver has no receiver than it's the root node and it assigns to itself the first state in his state list
 	 *
 	 * Descending phase:
 	 * 	Will assign to the receiver the node value of the giver node by either:
-	 * 		- doing an intersect if they have on value in common
+	 * 		- doing an intersect (ensemblist logic) if they have on value in common
 	 * 		- selecting the first state of the receiver if no intersection exists (mutation)
 	 *
 	 * @param giver A node pointer to the giver of the gene state
@@ -31,7 +31,7 @@ namespace fitch {
 	 * @param descending A boolean to know if it's the descending (slightly alter the algorithm to avoid unions)
 	 */
 	void _fitchAssignState(Node* giver, Node* receiver, bool descending = false) {
-		//TODO: This is the way it is described but it makes on more call to the parent node
+		//TODO: This is the way it is described but it makes one more call to the parent node
 		/*
 		if (!receiver) {
 			return;
@@ -140,48 +140,12 @@ namespace fitch {
 	 * @param t A tree object
 	 */
 	void etiquetteTree(Node* root) {
-		// ===== Ascending phase =====
-		// TODO: do a loop getting the parent at max_depth() - i for each leaf and assign with this
 		set<Node*> v;
 		tree::getLeafNodes(root, v); // Gets all the leaf nodes and put it in the v vector
+					     
+		// ===== Ascending phase =====
 		_fitchAscendTree(v);
-		//for (Node* n : v) { // For each leaf node we go up to the root
-		//	Node* current_node = n;
-		//	Node* next_node = n->getParentNode();
-		//	while(next_node != nullptr) { // While we haven't reached the root we assign to the parent node the current state
-		//		if (next_node != nullptr) { // If we are not at the root
-		//			set<string> current_node_states = current_node->getStates(); // Saves the current node state
-		//			set<string> next_node_states = next_node->getStates();
-		//			set<string> intersect;
-		//			// Get the intersection of the child node and the parent node
-		//			set_intersection(current_node_states.begin(), current_node_states.end(),
-		//						next_node_states.begin(), next_node_states.end(),
-		//						inserter(intersect, intersect.begin()));
-		//			// If some value of the current node and the parent node states correspond
-		//			if (intersect.size() > 0) {
-		//				next_node->setStates(intersect);
-		//				cout << "INTERSECT " << current_node->getName() << " --> " << next_node->getName();
-		//				for (string s: intersect) {
-		//					cout << "\t" << s << endl;
-		//				}
-		//			// Else the two sets are fused together
-		//			} else {
-		//				set<string> union_set;
-		//				set_union(current_node_states.begin(), current_node_states.end(),
-		//						next_node_states.begin(), next_node_states.end(),
-		//						inserter(union_set, union_set.begin()));
-		//				next_node->setStates(union_set);
-		//				/*for (string s: union_set) {
-		//					cout << "\t" << s << endl;
-		//				}*/
-		//			}
-		//		}
-		//		current_node = current_node->getParentNode();
-		//		next_node = current_node->getParentNode();
-		//	}
-		//}
-		//
-		//// ===== Descending phase ======
+		// ===== Descending phase =====
 		_fitchDescendTree(root);
 	};
 }
