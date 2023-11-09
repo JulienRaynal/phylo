@@ -110,11 +110,17 @@ jobs:
     #       path: ${{ steps.strings.outputs.build-output-dir }}/src/phylo
 
 
-    - name: Upload binaries
-      if: startsWith(github.ref, 'refs/tags/')
+    - name: Upload linux binaries
+      if: ${{!startsWith(matrix.os, 'windows') && startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v1
       with:
         files: ${{ steps.strings.outputs.build-output-dir }}/src/${{matrix.os}}-${{matrix.c_compiler}}.*
+
+    - name: Upload windows binaries
+      if: ${{startsWith(matrix.os, 'windows') && startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ${{ steps.strings.outputs.build-output-dir }}\src\${{matrix.os}}-${{matrix.c_compiler}}.*
 
         
   # release:
