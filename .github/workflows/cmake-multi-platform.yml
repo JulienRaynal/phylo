@@ -114,8 +114,7 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v1
       with:
-        files: ${{steps.strings.outputs.build-output-dir }}/src/${{matrix.os}}-${{matrix.c_compiler}}.*
-    
+        files: ${{ steps.strings.outputs.build-output-dir }}/src/${{matrix.os}}-${{matrix.c_compiler}}.*
 
 
         
