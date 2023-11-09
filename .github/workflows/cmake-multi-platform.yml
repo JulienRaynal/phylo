@@ -92,7 +92,7 @@ jobs:
     - name: rename exe 
       if: ${{startsWith(matrix.config.os, 'windows')}}
       run: |
-        ls -R 
+        dir /s /b /a:d
         mv ${{ steps.strings.outputs.build-output-dir }}/src/phylo  ${{ steps.strings.outputs.build-output-dir }}/${{matrix.os}}-${{matrix.c_compiler}}.exe
 
     # - name: Unix Artifacts      
