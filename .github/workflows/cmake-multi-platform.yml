@@ -89,9 +89,11 @@ jobs:
       if: ${{!startsWith(matrix.config.os, 'windows')}}
       run: mv ${{ steps.strings.outputs.build-output-dir }}/src/phylo  ${{ steps.strings.outputs.build-output-dir }}/${{matrix.os}}-${{matrix.c_compiler}}.bin
 
-    - name: rename exe
+    - name: rename exe 
       if: ${{startsWith(matrix.config.os, 'windows')}}
-      run: mv ${{ steps.strings.outputs.build-output-dir }}/src/phylo  ${{ steps.strings.outputs.build-output-dir }}/${{matrix.os}}-${{matrix.c_compiler}}.exe
+      run: |
+        ls -R 
+        mv ${{ steps.strings.outputs.build-output-dir }}/src/phylo  ${{ steps.strings.outputs.build-output-dir }}/${{matrix.os}}-${{matrix.c_compiler}}.exe
 
     # - name: Unix Artifacts      
     #   if: ${{!startsWith(matrix.config.os, 'windows')}}
