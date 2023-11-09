@@ -29,8 +29,12 @@ namespace tree {
 		if ((!node->getLeftChild()) && (!node->getRightChild())) {
 			s.emplace(node);
 		} else {
-			getLeafNodes(node->getLeftChild(), s);
-			getLeafNodes(node->getRightChild(), s);
+			if (node->getLeftChild()) {
+				getLeafNodes(node->getLeftChild(), s);
+			}
+			if (node->getRightChild()) {
+				getLeafNodes(node->getRightChild(), s);
+			}
 		}
 		return s;
 	}
