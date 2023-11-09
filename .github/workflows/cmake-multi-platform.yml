@@ -86,11 +86,11 @@ jobs:
       run: ctest --build-config ${{ matrix.build_type }}
 
     - name: rename binaries
-      if: ${{!startsWith(matrix.config.os, 'windows')}}
+      if: ${{!startsWith(matrix.os, 'windows')}}
       run: mv ${{ steps.strings.outputs.build-output-dir }}/src/phylo  ${{ steps.strings.outputs.build-output-dir }}/src/${{matrix.os}}-${{matrix.c_compiler}}.bin
 
     - name: rename exe 
-      if: ${{startsWith(matrix.config.os, 'windows')}}
+      if: ${{startsWith(matrix.os, 'windows')}}
       run: mv ${{ steps.strings.outputs.build-output-dir }}/src/Release/phylo.exe  ${{ steps.strings.outputs.build-output-dir }}/src/${{matrix.os}}-${{matrix.c_compiler}}.bin
         
     #mv ${{ steps.strings.outputs.build-output-dir }}/src/phylo  ${{ steps.strings.outputs.build-output-dir }}/${{matrix.os}}-${{matrix.c_compiler}}.exe
