@@ -89,9 +89,9 @@ jobs:
       if: ${{!startsWith(matrix.os, 'windows')}}
       run: mv ${{ steps.strings.outputs.build-output-dir }}/src/phylo  ${{ steps.strings.outputs.build-output-dir }}/src/${{matrix.os}}-${{matrix.c_compiler}}.bin
 
-    - name: rename exe 
-      if: ${{startsWith(matrix.os, 'windows')}}
-      run: mv D:\a\phylo\phylo\build\src\Release\phylo.exe D:\a\phylo\phylo\build\src\phylo.exe
+        #- name: rename exe 
+        #  if: ${{startsWith(matrix.os, 'windows')}}
+        #  run: mv D:\a\phylo\phylo\build\src\Release\phylo.exe D:\a\phylo\phylo\build\src\phylo.exe
         
     #mv ${{ steps.strings.outputs.build-output-dir }}/src/phylo  ${{ steps.strings.outputs.build-output-dir }}/${{matrix.os}}-${{matrix.c_compiler}}.exe
 
@@ -120,7 +120,7 @@ jobs:
       if: ${{startsWith(matrix.os, 'windows') && startsWith(github.ref, 'refs/tags/')}}
       uses: softprops/action-gh-release@v1
       with:
-        files: D:\a\phylo\phylo\build\src\phylo.exe
+        files: D:\a\phylo\phylo\build\src\Release\phylo.exe
 
         
   # release:
