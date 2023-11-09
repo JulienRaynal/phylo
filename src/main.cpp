@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <libgen.h>
+//#include <libgen.h>
 #include "./Objects/Node.h"
 #include "./Helpers/Tree.h"
 #include "./lca/lca.h"
@@ -9,7 +9,7 @@
 
 using namespace std;
 
-char* my_program = nullptr;
+string my_program;
 
 /**
  * A string to be called as a user manual
@@ -75,7 +75,7 @@ void manage_lca(Node* root) {
 //}
 
 int main(int argc, char **argv) {
-	my_program = basename(argv[0]); // just used for a nicer output
+	my_program = "Phylo"; // just used for a nicer output
 	bool exit = false; // Allows to manage the exit of the program
 	string input; // Takes the user input
 	int output; // User input converted in int
