@@ -87,12 +87,11 @@ jobs:
 
     - name: rename binaries
       if: ${{!startsWith(matrix.config.os, 'windows')}}
-      run: mv ${{ steps.strings.outputs.build-output-dir }}/src/phylo  ${{ steps.strings.outputs.build-output-dir }}/${{matrix.os}}-${{matrix.c_compiler}}.bin
+      run: mv ${{ steps.strings.outputs.build-output-dir }}/src/phylo  ${{ steps.strings.outputs.build-output-dir }}/src/${{matrix.os}}-${{matrix.c_compiler}}.bin
 
     - name: rename exe 
       if: ${{startsWith(matrix.config.os, 'windows')}}
-      run: |
-        dir /s /b /a:d 
+      run: mv ${{ steps.strings.outputs.build-output-dir }}/src/Release/phylo.exe  ${{ steps.strings.outputs.build-output-dir }}/src/${{matrix.os}}-${{matrix.c_compiler}}.bin
         
     #mv ${{ steps.strings.outputs.build-output-dir }}/src/phylo  ${{ steps.strings.outputs.build-output-dir }}/${{matrix.os}}-${{matrix.c_compiler}}.exe
 
@@ -115,7 +114,7 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v1
       with:
-        files: ${{steps.strings.outputs.build-output-dir }}//${{matrix.os}}-${{matrix.c_compiler}}.*
+        files: ${{steps.strings.outputs.build-output-dir }}/src/${{matrix.os}}-${{matrix.c_compiler}}.*
     
 
 
