@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include "../Helpers/tree.h"
+#include "../Helpers/Trunk.h"
 
 namespace fitch {
 	/**

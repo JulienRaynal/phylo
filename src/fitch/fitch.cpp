@@ -132,7 +132,19 @@ namespace fitch {
 					     
 		// ===== Ascending phase =====
 		_fitchAscendTree(leaves); // o(n)
+		
+		cout << "===== ASCENDING PHASE ======" << endl;
+		vector<trunk::Trunk*> tv;
+		tree::cleanTreeDisplay(root, tv);
+		trunk::freeTrunk(tv);
+
+
 		// ===== Descending phase =====
 		_fitchDescendTree(root); // O(n)
+
+		cout << "===== DESCENDING PHASE ======" << endl;
+		tv.clear();
+		tree::cleanTreeDisplay(root, tv);
+		trunk::freeTrunk(tv);
 	};
 }
