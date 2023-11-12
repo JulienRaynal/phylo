@@ -35,8 +35,13 @@ Node::~Node(){
         return;
     }
 
-    this->getLeftChild()->freeNode();
+    if (this->getLeftChild()) {
+    	this->getLeftChild()->freeNode();
+    }
+    
+    if (this->getRightChild()) {
     this->getRightChild()->freeNode();
+    }
 }
 
 string& Node::getName() {
