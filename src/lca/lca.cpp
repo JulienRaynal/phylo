@@ -2,9 +2,11 @@
 
 namespace lca {
 	Node* findLowestCommonAncestor(Node* v, Node* w) {
+        // Get the depth of the selected nodes
 		int depth_vv = v->getDepth();
 		int depth_ww = w->getDepth();
 
+        // Get the nodes reference in a new variable
 		Node* vv = v;
 		Node* ww = w;
 
@@ -24,6 +26,7 @@ namespace lca {
 			vv = vv->getParentNode();
 			ww = ww->getParentNode();
 		}
+        // Once it matches, return the common ancestor
 		return vv;
 	}
 }

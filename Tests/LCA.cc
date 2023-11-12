@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include "../src/lca/lca.h"
-#include "../src/Helpers/Tree.h"
+#include "../src/Helpers/tree.h"
 
 
 using namespace std;

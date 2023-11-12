@@ -1,13 +1,3 @@
-//struct Trunk {
-//	Trunk* _prev;
-//	std::string _str;
-//
-//	Trunk(Trunk* prev, std::string str) {
-//		this->_prev = prev;
-//		this->_str = str;
-//	}
-//};
-
 #ifndef PHYLO_TRUNK_H
 #define PHYLO_TRUNK_H
 
@@ -16,10 +6,20 @@
 #include <iostream>
 
 namespace trunk {
+    /**
+     * A trunk structure that manages the string to display the tree
+     * ONLY USED FOR DISPLAY PURPOSE
+     */
 	struct Trunk {
 		Trunk* prev;
 		std::string str;
 
+        /**
+         * Constructor of the trunk structure
+         *
+         * @param prev
+         * @param str
+         */
 		Trunk(Trunk* prev, std::string& str) {
 			this->prev = prev;
 			this->str = str;
@@ -28,12 +28,16 @@ namespace trunk {
 
 	/**
 	 * Memory management function for the Trunk structures
+	 * Frees all the trunks.
+	 * Needs to be called after displaying the tree
+	 *
 	 * @param v A vector containing pointers to Trunk structures
 	 */
 	void freeTrunk(std::vector<Trunk*> v);	
 
 	/**
-	 * Display the value of the trunk structure (used to build the tree)
+	 * Display the string contained in the trunk structure (used to build the tree)
+	 *
 	 * @param p A pointer to a trunk
 	 */
 	void showTrunks(trunk::Trunk* p);

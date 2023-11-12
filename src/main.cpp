@@ -1,8 +1,7 @@
 #include <iostream>
 #include <string>
-//#include <libgen.h>
 #include "./Objects/Node.h"
-#include "./Helpers/Tree.h"
+#include "./Helpers/tree.h"
 #include "./lca/lca.h"
 #include "./fitch/fitch.h"
 //#include "./reconciliation/reconciliation.h"
@@ -40,9 +39,9 @@ bool tryParse(string& input, int& output) {
  */
 void manage_lca(Node* root) {
 	string node_name1, node_name2;
-	cout << "Please input the name of the first node you want to get the LCA from: " << endl;
+	cout << "Please input the name of the first node you want to get the LCA from, BEFORE THE PARENTHESIS: " << endl;
 	getline(cin, node_name1);
-	cout << "Please input the name of the second node you want to get the LCA from: " << endl;
+	cout << "Please input the name of the second node you want to get the LCA from, BEFORE THE PARENTHESIS: " << endl;
 	getline(cin, node_name2);
 	Node* n1 = tree::findNode(root, node_name1);
 	Node* n2 = tree::findNode(root, node_name2);
@@ -92,7 +91,8 @@ int main(int argc, char **argv) {
 			getline(cin, input);
 		}
 		switch (output) {
-			case 1: { 
+			case 1: {
+                // If a tree exists we delete it to build a new one
 				if (root) {
 					root->freeNode();
 				}
@@ -107,13 +107,11 @@ int main(int argc, char **argv) {
 				break;
 			case 3:
 				// TODO: Finish this one day
-				cout << "THIS ALGORITHM IS NOT IMPLEMENTED YET" << endl;
+				cout << "This algorithm is not implemented YET" << endl;
 				break;
 			case 4:{
-				fitch::etiquetteTree(root);
-				vector<trunk::Trunk*> tv;
-				tree::cleanTreeDisplay(root, tv);
-				trunk::freeTrunk(tv);
+                		cout << "The state of the gene for each node is displayed between parenthesis after the name" << endl;
+                		fitch::etiquetteTree(root);
 				break;
 			      }
 			case 0:

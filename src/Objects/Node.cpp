@@ -44,11 +44,11 @@ string& Node::getName() {
 }
 
 void Node::addChild(Node* child) {
-	if(!this->_left) {
-		this->_left = child;
+	if(!this->_left_child) {
+		this->_left_child = child;
 	} 
-	else if (!this->_right) {
-		this->_right = child;
+	else if (!this->_right_child) {
+		this->_right_child = child;
 	}
 	else {
 		cerr << "A third child was trying to be set";
@@ -59,11 +59,11 @@ void Node::addChild(Node* child) {
 }
 
 Node* Node::getLeftChild() {
-	return this->_left;
+	return this->_left_child;
 }
 
 Node* Node::getRightChild() {
-	return this->_right;
+	return this->_right_child;
 }
 
 void Node::setParentNode(Node* parent) {
