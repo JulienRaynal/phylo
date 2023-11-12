@@ -70,7 +70,9 @@ namespace fitch {
 
 	/**
 	 * A recursive algorithm to assign the states of gene to all child starting from a root node in a descending manner
-	 * Uses a breadth-first-search
+	 * Uses a depth-first-search
+	 *
+	 * Complexity O(n)
 	 *
 	 * @param node A pointer to an initial node
 	 */
@@ -93,41 +95,44 @@ namespace fitch {
 	}
 
 	/**
-	 * A recursive algorihthm to assign states of gene to all parent from the leaf nodes in an ascending manner
+	 * A recursive algorithm to assign states of gene to all parent from the leaf nodes in an ascending manner
+	 * Uses a breadth-first search
 	 *
-	 * @param leaves A list of leaves from the tree
+	 * Complexity O(n) [O(n) + O(log(n))]
+	 *
+	 * @param nodes_set A list of leaves from the tree
 	 */
-	void _fitchAscendTree(set<Node*>& leaves) {
-		set<Node*> current_nodes = leaves; // create new list to put the parents of the nodes in it
-		leaves.clear(); // free the list to add the parents in it
-		while (*current_nodes.begin() != nullptr) { // When the node is null then we reached the top
+	void _fitchAscendTree(set<Node*>& nodes_set) {
+		set<Node*> current_nodes = nodes_set; // create a new set to put the leaves in it
+		nodes_set.clear(); // free the set to add the leaves parents in
+		while (*current_nodes.begin() != nullptr) { // When the node is null then we reached the root
 			for (Node* node: current_nodes) {
 				Node* parent = node->getParentNode();
 				_fitchAssignState(node, parent);
 				// Check if the leaf is already in the set to not create doubles
-				const bool is_in = leaves.find(parent) != leaves.end();
+				const bool is_in = nodes_set.find(parent) != nodes_set.end();
 				if (!is_in) {
-					leaves.emplace(parent);
+					nodes_set.emplace(parent);
 				}
 			}
-			// Set the parents as next current_nodes
-			current_nodes = leaves;
-			leaves.clear();
+			// Set the parents as next current_nodes to go in the loop
+			current_nodes = nodes_set;
+			nodes_set.clear();
 		}
 	}
 
 	/**
-	 * Implementation of the fitch algorithm for a parcimonic assignment of gene states in a tree
+	 * Implementation of the fitch algorithm for a parsimonious assignment of gene states in a tree
 	 *
 	 * @param t A tree object
 	 */
-	void etiquetteTree(Node* root) {
+    void etiquetteTree(Node* root) {
 		set<Node*> leaves;
 		tree::getLeafNodes(root, leaves); // Gets all the leaf nodes and put it in the v vector
 					     
 		// ===== Ascending phase =====
-		_fitchAscendTree(leaves);
+		_fitchAscendTree(leaves); // o(n)
 		// ===== Descending phase =====
-		_fitchDescendTree(root);
+		_fitchDescendTree(root); // O(n)
 	};
 }

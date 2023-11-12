@@ -1,4 +1,4 @@
-#include "Tree.h"
+#include "tree.h"
 
 using namespace std;
 using namespace trunk;
@@ -31,7 +31,7 @@ namespace tree {
 
 	set<Node*>& getLeafNodes(Node* node, set<Node*>& stacked_nodes) {
 		// If the current node contains neither a left nor a right child
-		// Then it is a leaf node and we add it to the set of leaves
+		// Then it is a leaf node, and we add it to the set of leaves
 		if ((!node->getLeftChild()) && (!node->getRightChild())) {
 			stacked_nodes.emplace(node);
 		// Else a Breadth-First-Search is done to look for the leaves of the current node
@@ -50,14 +50,17 @@ namespace tree {
 	// 	Tree build function
 	// ======================================
 	Node* buildTree(string path_to_file) {
+        // variables needed in the while loop
 		ifstream ifs(path_to_file);
 		stack<Node*> stacked_nodes;
 		int unnamed_node_id = 1;
 		Node* current_node = nullptr;
 		string name;
 
+        // for each caracter in the string in the file
 		while(ifs){
 			char c = ifs.get();
+            // If '(' then we have a new node that is not a leaf
 			if (c == '(') {
 				Node* new_node = new Node(to_string(unnamed_node_id++), stacked_nodes.size());
 				if (current_node) {
@@ -66,6 +69,10 @@ namespace tree {
 				stacked_nodes.push(new_node);
 				current_node = new_node;
 			}
+            /* If ')' or ',' then there's two options
+             *  - If there was a string before then we reach the end of the name of a leaf and create a new leaf
+             *  - If no string was before then we reached the end of a node and need to go up the stack
+             */
 			else if (c == ')' || c == ',') {
 				if (!name.empty()) {
 					Node* new_node = new Node(name, stacked_nodes.size() + 1);
@@ -76,6 +83,8 @@ namespace tree {
 					current_node = stacked_nodes.top();
 				}
 			}
+            // If there's a character we're currently building a child name and add it to the child name string
+            // We expect to later meet either ')' or ',' as only the leaf nodes are named
 			else {
 				name.push_back(c);
 			}
@@ -93,17 +102,19 @@ namespace tree {
 		string down = "`----";
 		string separator = "   |";
 
-		// The function is recursive and will reach empty pointers
+		// The function is recursive and will reach empty pointers which indicates it has reached leaves previously
 		if (root == nullptr) {
 			return;
 		}
 
+        // For each loop adds space to build the string for the next depth
 		string prev_str = "    ";
 		Trunk* trunk = new Trunk(prev, prev_str);
 		v.push_back(trunk);
 
 		cleanTreeDisplay(root->getRightChild(), v, trunk, true);
 
+        // Uses the recursive logic to detect if a node is right, middle or left in the tree and adds the corresponding tree
 		if (!prev) {
 			trunk->str = middle;
 		} else if (isRight) {
@@ -114,8 +125,10 @@ namespace tree {
 			prev->str = prev_str;
 		}
 
+        // Displays the built trunk
 		showTrunks(trunk);
 		cout << " " << root->getName() << "(";
+        // prints all the gene states of the node between '(' and ')'
 		for (string stacked_nodes: root->getStates()) {
 			cout << stacked_nodes << ",";
 		}
@@ -125,30 +138,7 @@ namespace tree {
 			prev->str = prev_str;
 		}
 		trunk->str = separator;
-
+        // Builds the left part recursively of the tree
 		cleanTreeDisplay(root->getLeftChild(), v, trunk, false);
-	}
-
-	// ======================================
-	//	Tree saving function 	
-	// ======================================
-	void treeToNewick(Node* root, string& newick_string, stack<Node*> stacked_nodes) {
-		// If we're the root we add an opening parenthesis
-		if (stacked_nodes.size() == 0) {
-			stacked_nodes.push(root);
-		} else {
-			while(stacked_nodes.size() > 0) {
-				Node* current_node = stacked_nodes.top();
-				stacked_nodes.pop();
-				Node* left_child = current_node->getLeftChild();
-				Node* right_child = current_node->getRightChild();
-				// We are in a node
-				if (left_child || right_child) {
-					if(left_child) {
-
-					} 
-				}
-			}
-		}
 	}
 }

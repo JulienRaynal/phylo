@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.24)
 set(Target
 	"main.cpp"
 	"Objects/Node.cpp"
-	"Helpers/Tree.cpp"
+	"Helpers/tree.cpp"
 	"Helpers/Trunk.cpp"
 	"lca/lca.cpp"
 	"fitch/fitch.cpp"
